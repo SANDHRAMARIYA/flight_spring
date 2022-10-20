@@ -5,6 +5,7 @@ import com.nestdigital.flight_management.Model.FlightModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -25,5 +26,13 @@ private FlightDao dao;
     @GetMapping("/viewflight")
     public List<FlightModel> allflight(){
         return (List<FlightModel>) dao.findAll();
+    }
+
+    @Transactional
+@CrossOrigin(origins = "*")
+    @PostMapping(path = "/deleteflight",consumes = "application/json",produces = "application/json")
+    public String deleteflight(@RequestBody FlightModel flight) {
+        dao.deleteFlightById(flight.getId());
+        return "{status:'success'}";
     }
 }
